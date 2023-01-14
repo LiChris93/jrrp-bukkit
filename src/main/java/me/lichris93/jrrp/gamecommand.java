@@ -16,7 +16,7 @@ public class gamecommand implements CommandExecutor {
 
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         if (commandSender.isOp()) {
-            if (args.length == 1 && args[0].equals("help")) {
+            if (args.length == 1 && args[0].equalsIgnoreCase("help")) {
                 commandSender.sendMessage("§a--------------[ jrrp ]--------------");
                 commandSender.sendMessage("§a/jrrp help              显示本帮助信息");
                 commandSender.sendMessage("§a/jrrp reload                 重载配置");
@@ -25,13 +25,13 @@ public class gamecommand implements CommandExecutor {
                 commandSender.sendMessage("§a/jrrp isadmin <qqid>    判断是否是管理");
                 commandSender.sendMessage("§a----------[ By LiChris93 ]-----------");
                 return true;
-            } else if (args.length == 2 && args[0].equals("addadmin")) {
+            } else if (args.length == 2 && args[0].equalsIgnoreCase("addadmin")) {
                 if (args[1].matches("[1-9][0-9]{4,14}")) {
                     values.list.add(args[1]);
                     final boolean sta = null != values.list;
-                    List<String> templist = new ArrayList<String>();
+                    List<String> templist = new ArrayList<>();
                     if (sta) {
-                        Set<String> set = new HashSet<String>(values.list);
+                        Set<String> set = new HashSet<>(values.list);
                         templist.addAll(set);
                     }
                     StringBuilder temp = new StringBuilder();
@@ -50,13 +50,13 @@ public class gamecommand implements CommandExecutor {
                     commandSender.sendMessage("§c不正确的QQ号！");
                     return true;
                 }
-            } else if (args.length == 2 && args[0].equals("deladmin")) {
+            } else if (args.length == 2 && args[0].equalsIgnoreCase("deladmin")) {
                 if (haspermission(Long.parseLong(args[1]))) {
                     values.list.remove(args[1]);
                     final boolean sta = null != values.list && values.list.size() > 0;//set转list用list方法
-                    List<String> templist = new ArrayList<String>();
+                    List<String> templist = new ArrayList<>();
                     if (sta) {
-                        Set<String> set = new HashSet<String>(values.list);
+                        Set<String> set = new HashSet<>(values.list);
                         templist.addAll(set);
                     }
                     StringBuilder temp = new StringBuilder();
@@ -78,7 +78,7 @@ public class gamecommand implements CommandExecutor {
                     commandSender.sendMessage("§c该用户不是管理！");
                     return true;
                 }
-            } else if (args.length == 1 && args[0].equals("reload")) {
+            } else if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
                 try {
                     values.list.clear();
                     values.qqbot = values.config.getLong("bot");
@@ -109,7 +109,7 @@ public class gamecommand implements CommandExecutor {
                     commandSender.sendMessage("§cconfig重载失败，详细信息查看控制台");
                     return true;
                 }
-            } else if (args.length == 2 && args[0].equals("isadmin")) {
+            } else if (args.length == 2 && args[0].equalsIgnoreCase("isadmin")) {
                 if (haspermission(Long.parseLong(args[1]))) {
                     commandSender.sendMessage("§a该用户是管理");
                 } else {
@@ -129,7 +129,7 @@ public class gamecommand implements CommandExecutor {
 
     public boolean haspermission(long qqnum) {
         for (String s : values.list) {
-            if (Long.toString(qqnum).equals(s)) {
+            if (Long.toString(qqnum).equalsIgnoreCase(s)) {
                 return true;
             }
         }
