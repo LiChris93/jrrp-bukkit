@@ -19,12 +19,12 @@ lang:
   jrrpclear: ".jrrp-clear"
   #发送今日人品集合内所有内容的消息
   sendmap: ".jrrp-send-map"
-  
+
   ###上述为定义用户需往群内发送的消息(不可使用变量)，下面则是机器人发送的消息(可以使用变量)###
-  
+
   #用户当天第一次请求今日人品时发送的消息
   getsucceedmes: "%sendername%的今日人品是%rpnum%,请在明天再次查看"
-  
+
   #若用户在当日再次请求今日人品则发送
   getfailmes: "%sendername%的今日人品是%rpnum%"
 #不要修改此项
