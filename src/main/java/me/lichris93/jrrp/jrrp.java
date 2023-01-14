@@ -4,15 +4,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
-
+import static me.lichris93.jrrp.values.*;
 
 public class jrrp extends JavaPlugin {
 
     @Override
     public void onEnable() {
         //Make the values not null
-        values.config = this.getConfig();
-        values.instance = this;
+        config = this.getConfig();
+        instance = this;
         //Create default yml file when missing
         saveDefaultConfig();
         //Begin Enabling
@@ -36,8 +36,8 @@ public class jrrp extends JavaPlugin {
         //Finish Disabling
         info("jrrp 卸载完毕！——By LiChris93");
     }
-    public static jrrp getself() {
-        return values.instance;
+    public static jrrp getSelf() {
+        return instance;
     }
     public void regCommand(){
         try {
@@ -63,20 +63,20 @@ public class jrrp extends JavaPlugin {
     }
     public void loadConfig() {
         try {
-            values.qqbot = values.config.getLong("bot");
-            values.qqgroup = values.config.getLong("group");
-            values.admin = values.config.getString("admin");
-            values.jrrpmes = values.config.getString("lang.jrrpmes");
-            values.version = values.config.getString("version");
-            values.jrrpclear = values.config.getString("lang.jrrpclear");
-            values.sendmap = values.config.getString("lang.sendmap");
-            values.getfailmes = values.config.getString("lang.getfailmes");
-            values.getsucceedmes = values.config.getString("lang.getsucceedmes");
-            if (values.admin.contains(",")) {
-                String[] temp = values.admin.split(",");
-                values.list.addAll(Arrays.asList(temp));
+            qqbot = config.getLong("bot");
+            qqgroup = config.getLong("group");
+            admin = config.getString("admin");
+            jrrpmes = config.getString("lang.jrrpmes");
+            version = config.getString("version");
+            jrrpclear = config.getString("lang.jrrpclear");
+            sendmap = config.getString("lang.sendmap");
+            getfailmes = config.getString("lang.getfailmes");
+            getsucceedmes = config.getString("lang.getsucceedmes");
+            if (admin.contains(",")) {
+                String[] temp = admin.split(",");
+                list.addAll(Arrays.asList(temp));
             } else {
-                values.list.add(values.admin);
+                list.add(admin);
             }
             info("config读取完成");
         }catch (Exception e){
