@@ -5,14 +5,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import static me.lichris93.jrrp.values.*;
 
-public class gamecommand implements CommandExecutor {
+public class gameCommand implements CommandExecutor {
     jrrp ins = jrrp.getSelf();
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, Command command, String label, String[] args) {
@@ -56,20 +51,14 @@ public class gamecommand implements CommandExecutor {
     public void addAdmin(CommandSender commandSender, @NotNull String qqNum){
         if (qqNum.matches("[1-9][0-9]{4,14}")) {
             list.add(qqNum);
-            final boolean sta = null != list;//判断list不为null
-            List<String> templist = new ArrayList<>();
-            if (sta) {
-                Set<String> set = new HashSet<>(list);
-                templist.addAll(set);
-            }
             StringBuilder temp = new StringBuilder();
-            if (templist.size() > 1) {
-                for (String s : templist) {
+            if (list.size() > 1) {
+                for (String s : list) {
                     temp.append(s).append(",");
                 }
                 temp.deleteCharAt(temp.length()-1);//去掉结尾逗号
             } else {
-                temp = new StringBuilder(templist.get(0));
+                temp = new StringBuilder((String) list.toArray()[0]);
             }
             config.set("admin", temp.toString());
             ins.saveConfigYml();
@@ -83,15 +72,15 @@ public class gamecommand implements CommandExecutor {
         config = ins.getConfig();
         try {
             list.clear();
-            qqbot = config.getLong("bot");
-            qqgroup = config.getLong("group");
+            qqBot = config.getLong("bot");
+            qqGroup = config.getLong("group");
             admin = config.getString("admin");
-            jrrpmes = config.getString("lang.jrrpmes");
+            jrrpMes = config.getString("lang.jrrpmes");
             version = config.getString("version");
-            jrrpclear = config.getString("lang.jrrpclear");
-            sendmap = config.getString("lang.sendmap");
-            getfailmes = config.getString("lang.getfailmes");
-            getsucceedmes = config.getString("lang.getsucceedmes");
+            jrrpClear = config.getString("lang.jrrpclear");
+            sendMap = config.getString("lang.sendmap");
+            getFailMes = config.getString("lang.getfailmes");
+            getSucceedMes = config.getString("lang.getsucceedmes");
             if (admin.contains(",")) {
                 String[] temp = admin.split(",");
                 for (String i : temp) {
@@ -125,21 +114,14 @@ public class gamecommand implements CommandExecutor {
     public void delAdmin(CommandSender commandSender,String qqNum){
         if (hasPermission(Long.parseLong(qqNum))) {
             list.remove(qqNum);
-            final boolean sta = null != list && list.size() > 0;//判断list不为null
-            //set转list用list方法
-            List<String> templist = new ArrayList<>();
-            if (sta) {
-                Set<String> set = new HashSet<>(list);
-                templist.addAll(set);
-            }
             StringBuilder temp = new StringBuilder();
-            if (templist.size() > 1) {
-                for (String s : templist) {
+            if (list.size() > 1) {
+                for (String s : list) {
                     temp.append(s).append(",");
                 }
                 temp.deleteCharAt(temp.length()-1);//去掉结尾逗号
             } else {
-                temp = new StringBuilder(templist.get(0));
+                temp = new StringBuilder((String) list.toArray()[0]);
             }
             config.set("admin", temp.toString());
             ins.saveConfigYml();

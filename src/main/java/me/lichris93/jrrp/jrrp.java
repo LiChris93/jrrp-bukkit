@@ -41,7 +41,7 @@ public class jrrp extends JavaPlugin {
     }
     public void regCommand(){
         try {
-            Bukkit.getPluginCommand("jrrp").setExecutor(new gamecommand());
+            Bukkit.getPluginCommand("jrrp").setExecutor(new gameCommand());
             info("命令执行器注册完成");
         }catch (Exception e){
             warn("jrrp加载失败！原因：命令执行器注册失败，详情请看控制台");
@@ -52,7 +52,7 @@ public class jrrp extends JavaPlugin {
     }
     public void regEvent(){
         try {
-            Bukkit.getPluginManager().registerEvents(new groupmsg(), this);
+            Bukkit.getPluginManager().registerEvents(new groupMsg(), this);
             info("事件监听器注册完成");
         }catch (Exception e){
             warn("jrrp加载失败！原因：事件监听器注册失败，详情请看控制台");
@@ -63,15 +63,15 @@ public class jrrp extends JavaPlugin {
     }
     public void loadConfig() {
         try {
-            qqbot = config.getLong("bot");
-            qqgroup = config.getLong("group");
+            qqBot = config.getLong("bot");
+            qqGroup = config.getLong("group");
             admin = config.getString("admin");
-            jrrpmes = config.getString("lang.jrrpmes");
+            jrrpMes = config.getString("lang.jrrpmes");
             version = config.getString("version");
-            jrrpclear = config.getString("lang.jrrpclear");
-            sendmap = config.getString("lang.sendmap");
-            getfailmes = config.getString("lang.getfailmes");
-            getsucceedmes = config.getString("lang.getsucceedmes");
+            jrrpClear = config.getString("lang.jrrpclear");
+            sendMap = config.getString("lang.sendmap");
+            getFailMes = config.getString("lang.getfailmes");
+            getSucceedMes = config.getString("lang.getsucceedmes");
             if (admin.contains(",")) {
                 String[] temp = admin.split(",");
                 list.addAll(Arrays.asList(temp));
