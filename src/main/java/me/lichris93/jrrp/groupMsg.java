@@ -7,9 +7,7 @@ import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import static me.lichris93.jrrp.values.*;
 public class groupMsg implements Listener {
@@ -32,6 +30,9 @@ public class groupMsg implements Listener {
         }
         if (e.getMessage().equals(sendMap)) {//处理.jrrp-send-map
             sendMap(e);
+        }
+        if (e.getMessage().equals(sendRank)){//处理.jrrp-rank
+            sendRank(e);
         }
     }
 
@@ -56,7 +57,7 @@ public class groupMsg implements Listener {
 
             String num = Integer.toString(new Random().nextInt(101));
             send(getSucceedMes.replace("%sendername%", e.getSenderName()).replace("%rpnum%", num),e);// 发送消息
-            String[] temp = {f.format(now), num};
+            String[] temp = {f.format(now), num,e.getSenderName()};//保存当天日期，人品值和发送者昵称
             Time.put(e.getSenderID(), temp);// 放置到hashmap中
         } else {// 如果hashmap中存在
             Date now = new Date();
@@ -64,7 +65,7 @@ public class groupMsg implements Listener {
             if (!f.format(now).equals(Time.get(e.getSenderID())[0])) {// 如果不是当天再次发送
                 String num = Integer.toString(new Random().nextInt(101));
                 send(getSucceedMes.replace("%sendername%", e.getSenderName()).replace("%rpnum%", num),e);// 发送消息
-                String[] temp = {f.format(now), num};
+                String[] temp = {f.format(now), num,e.getSenderName()};//保存当天日期，人品值和发送者昵称
                 Time.put(e.getSenderID(), temp);// 重置时间
             } else {// 如果是当天再次发送
                 send(getFailMes.replace("%sendername%", e.getSenderName())
@@ -91,5 +92,22 @@ public class groupMsg implements Listener {
         } else {
             send("你没有权限",e);
         }
+    }
+    public void sendRank(@NotNull MiraiGroupMessageEvent e){
+        Date now = new Date();
+        SimpleDateFormat f = new SimpleDateFormat("yyyy 年 MM 月 dd 日");
+        String date = f.format(now);
+        HashMap<String,Long> Rank = new HashMap<>();//Rank:String(Key)->luckNum Long(Value)->qqNum
+        for(Map.Entry<Long, String[]> entry : Time.entrySet()){
+            if(entry.getValue()[0].equals(date)){
+                Rank.put(entry.getValue()[1],entry.getKey());//别搞混！这里只是为了排序！
+            }
+        }
+        TreeMap<String,Long> RankSorted = new TreeMap<>(Rank);//用TreeMap排序
+        StringBuilder result = new StringBuilder(date+"的今日人品榜单");
+        for(Map.Entry<String,Long> entry : RankSorted.entrySet()){
+            result.append("\n").append(Time.get(entry.getValue())[2]).append(":").append(entry.getKey());//输出
+        }
+        e.getGroup().sendMessage(result.toString());
     }
 }
