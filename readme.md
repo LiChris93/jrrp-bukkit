@@ -44,7 +44,8 @@
 
 ## TODO
 **优先支持 Spigot**
-- [ ] 支持多机器人多群
+- [x] 支持多群
+- [ ] 支持多Bot
 - [x] 支持 Bungeecord
 - [ ] 优化config.yml
 

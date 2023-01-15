@@ -11,7 +11,7 @@ public class values {
     static FileConfiguration config;
     static long qqBot;
     static jrrp instance;
-    static long qqGroup;
+    static Set<Long> qqGroup = new HashSet<>();
     static String version;
     static String admin;
     static String jrrpMes;

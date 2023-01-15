@@ -64,7 +64,7 @@ public class jrrp extends JavaPlugin {
     public void loadConfig() {
         try {
             qqBot = config.getLong("bot");
-            qqGroup = config.getLong("group");
+            qqGroup.addAll(config.getLongList("group"));
             admin = config.getString("admin");
             jrrpMes = config.getString("lang.jrrpmes");
             version = config.getString("version");

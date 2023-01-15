@@ -72,8 +72,9 @@ public class gameCommand implements CommandExecutor {
         config = ins.getConfig();
         try {
             list.clear();
+            qqGroup.clear();
             qqBot = config.getLong("bot");
-            qqGroup = config.getLong("group");
+            qqGroup.addAll(config.getLongList("group"));
             admin = config.getString("admin");
             jrrpMes = config.getString("lang.jrrpmes");
             version = config.getString("version");
@@ -100,7 +101,6 @@ public class gameCommand implements CommandExecutor {
             commandSender.sendMessage("§aconfig重载完成");
         } catch (Exception e) {
             ins.info(e.toString());
-
             commandSender.sendMessage("§cconfig重载失败，详细信息查看控制台");
         }
     }
