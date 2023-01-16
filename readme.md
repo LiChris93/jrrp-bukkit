@@ -30,7 +30,7 @@
 <div align="left">
 
 ## 服务端支持
-- [x] Spigot 1.13+
+- [x] 装有 MiraiMC 的 Spigot 1.13+
 
 
 ## 命令列表
