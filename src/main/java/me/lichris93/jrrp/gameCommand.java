@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import static me.lichris93.jrrp.values.*;
+import static  me.lichris93.jrrp.jrrp.*;
 
 public class gameCommand implements CommandExecutor {
     jrrp ins = jrrp.getSelf();
@@ -30,15 +31,7 @@ public class gameCommand implements CommandExecutor {
         }
         return true;
     }
-    public boolean hasPermission(long qqNum) {
-        for (String s : list) {
-            if (Long.toString(qqNum).equalsIgnoreCase(s)) {
-                return true;
-            }
-        }
-        return false;
 
-    }
     public void showHelp(@NotNull CommandSender commandSender){
         commandSender.sendMessage("§a--------------[ jrrp ]--------------");
         commandSender.sendMessage("§a/jrrp help              显示本帮助信息");
@@ -106,14 +99,14 @@ public class gameCommand implements CommandExecutor {
         }
     }
     public void isAdmin(CommandSender commandSender,String qqNum){
-        if (hasPermission(Long.parseLong(qqNum))) {
+        if (hasAdminPermission(Long.parseLong(qqNum))) {
             commandSender.sendMessage("§a该用户是管理");
         } else {
             commandSender.sendMessage("§c该用户不是管理");
         }
     }
     public void delAdmin(CommandSender commandSender,String qqNum){
-        if (hasPermission(Long.parseLong(qqNum))) {
+        if (hasAdminPermission(Long.parseLong(qqNum))) {
             list.remove(qqNum);
             StringBuilder temp = new StringBuilder();
             if (list.size() > 1) {

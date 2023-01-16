@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static me.lichris93.jrrp.values.*;
+import static  me.lichris93.jrrp.jrrp.*;
 public class groupMsg implements Listener {
     @EventHandler
     public void onSend(@NotNull MiraiGroupMessageEvent e) {
@@ -36,15 +37,7 @@ public class groupMsg implements Listener {
         }
     }
 
-    public boolean hasPermission(long qqNum) {
-        for (String s : list) {
-            if (Long.toString(qqNum).equals(s)) {
-                return true;
-            }
-        }
-        return false;
 
-    }
 
     public void send(String text,MiraiGroupMessageEvent e) {
         ServerUtils.runAsync(() -> e.getGroup().sendMessage(text));
@@ -74,7 +67,7 @@ public class groupMsg implements Listener {
         }
     }
     public void jrrpClear(@NotNull MiraiGroupMessageEvent e){
-        if (hasPermission(e.getSenderID())) {
+        if (hasAdminPermission(e.getSenderID())) {
             Time.clear();
             send("HashMap Cleared",e);
         } else {
@@ -82,10 +75,15 @@ public class groupMsg implements Listener {
         }
     }
     public void sendMap(@NotNull MiraiGroupMessageEvent e){
-        if (hasPermission(e.getSenderID())) {
+        if (hasAdminPermission(e.getSenderID())) {
             StringBuilder result = new StringBuilder("{");
             for (Map.Entry<Long, String[]> entry : Time.entrySet()) {
-                result.append(entry.getKey()).append("=[").append(entry.getValue()[0]).append(",").append(entry.getValue()[1]).append("]");
+                result.append(entry.getKey()).append("(").append(entry.getValue()[2]).append(")").append("=[").append(entry.getValue()[0]).append(",").append(entry.getValue()[1]).append("]").append(",");
+            }//eg:{1564722665(残影)=[114年5月14日,14]}
+            if(result.length()!=1){//排除无人情况
+                result.deleteCharAt(result.length()-1);//去掉结尾逗号
+            }else{
+                result.append(" No data found,:( ");
             }
             result.append("}");
             send(result.toString(),e);
@@ -97,13 +95,13 @@ public class groupMsg implements Listener {
         Date now = new Date();
         SimpleDateFormat f = new SimpleDateFormat("yyyy 年 MM 月 dd 日");
         String date = f.format(now);
-        HashMap<String,Long> Rank = new HashMap<>();//Rank:String(Key)->luckNum Long(Value)->qqNum
+        HashMap<String,Long> Rank = new HashMap<>();//得到Rank的未排序Map,保存人品值和QQ号 Rank:String(Key)->luckNum Long(Value)->qqNum
         for(Map.Entry<Long, String[]> entry : Time.entrySet()){
             if(entry.getValue()[0].equals(date)){
-                Rank.put(entry.getValue()[1],entry.getKey());//别搞混！这里只是为了排序！
+                Rank.put(entry.getValue()[1],entry.getKey());//别搞混！这里只是为了排序！TreeMap是根据Key排序的，只能无奈颠倒K和V
             }
         }
-        TreeMap<String,Long> RankSorted = new TreeMap<>(Rank);//用TreeMap排序
+        TreeMap<String,Long> RankSorted = new TreeMap<>(Rank);//用TreeMap排序得到已排序的RankSorted
         StringBuilder result = new StringBuilder(date+"的今日人品榜单");
         for(Map.Entry<String,Long> entry : RankSorted.entrySet()){
             result.append("\n").append(Time.get(entry.getValue())[2]).append(":").append(entry.getKey());//输出

@@ -103,5 +103,14 @@ public class jrrp extends JavaPlugin {
     public void warn(String text){
         getLogger().warning(text);
     }
+    public static boolean hasAdminPermission(long qqNum) {
+        for (String s : list) {
+            if (Long.toString(qqNum).equals(s)) {
+                return true;
+            }
+        }
+        return false;
+
+    }
 
 }
