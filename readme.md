@@ -48,6 +48,7 @@
 - [ ] 支持多Bot
 - [x] 支持榜单(q群内)
 - [x] 支持 Bungeecord
+- [ ] 支持 Velocity
 - [ ] 优化config.yml
 
 ## 声明
